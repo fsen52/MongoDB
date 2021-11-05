@@ -1,0 +1,73 @@
+//QUERIES  -- SORGULAR //
+
+use("URUNLER");
+db.createCollection("fiyatlar");
+db.fiyatlar.insertMany([
+{"urunAdi":"TV", "fiyat": 5000, "vergi": 10 ,"summary":[{"version":1},{"show":"yok"}]},
+{"urunAdi":"Telefon", "fiyat": 3500, "vergi": 20 },
+{"urunAdi":"Utu", "fiyat": 1500, "vergi": 5 },
+{"urunAdi":"Buzdolabi", "fiyat": 4000, "vergi": 10 } ] ); 
+
+use("URUNLER");
+db.fiyatlar.find().limit(2);
+
+db.fiyatlar.find().skip(1).limit(2);
+
+db.fiyatlar.findOne();
+
+{$and : [{fiyat : 5}, {adı:"utu"}]}
+{$or : [{fiyat : 5}, {adı:"utu"}]}
+{$nor : [{fiyat : 5}, {adı:"utu"}]}
+
+{"fiyat":{$not:{$eq:10}}}
+
+
+use("URUNLER")
+db.fiyatlar.find( { $and : [ {fiyat:5000}, {urunAdi:"TV"} ] } ) 
+
+
+use("URUNLER")
+db.fiyatlar.find({vergi:{$not:{$eq:10}}})
+
+//PROJECTION//
+
+use("URUNLER")
+db.fiyatlar.find({urunAdi:"TV"},{fiyat:1,_id:0})
+
+
+db.fiyatlar.find({},{fiyat:1, urunAdi:1, _id:0})
+
+//COMPARISON//
+
+// $eq : esit mi
+// $lt : kücük mü  (less than)
+// $gt : buyuk mu (greater than)
+// $lte: kucuk esit mi
+// $gte: buyuk esit mi
+// $ne : esit degil mi
+// $in : belirtilen degerler, bir dizideki degerlerden birisine esit mi
+// $nin: belirtilen degerler, bir dizideki tum degerlere esit degil mi
+// SYNTAX :   {field: {$gte: value} }
+
+db.fiyatlar.find({fiyat:{$gte:3500}},{fiyat:1, urunAdi:1, _id:0})
+
+db.fiyatlar.find({fiyat:{$lte:4000}},{urunAdi:1})
+
+db.fiyatlar.insertOne({urunAdi:"Konsol",fiyat:7000,vergi:30})
+
+use("URUNLER")
+db.fiyatlar.find({urunAdi:"Konsol"})
+
+db.fiyatlar.find({$or:[{fiyat:1500},{fiyat:3500},{fiyat:7000}]})
+
+use("URUNLER");
+db.fiyatlar.find({fiyat:{$in:[1500,3500,7000]}})
+
+db.fiyatlar.find({fiyat:{$nin:[1500,3500,7000]}},{urunAdi:1,fiyat:1,_id:0})
+
+db.fiyatlar.find({$or:[{fiyat:{$lte:5000}},{urunAdi:"Koltuk"}]},{urunAdi:1,fiyat:1,_id:0})
+
+//SORT//
+
+
+db.fiyatlar.find({},{urunAdi:1,fiyat:1,_id:0}).sort({fiyat:1})

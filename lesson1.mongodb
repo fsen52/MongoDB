@@ -1,0 +1,54 @@
+//TEMEL KOMUTLAR //
+
+//--> 1
+
+ show dbs;
+
+
+//--> 2
+
+// use("KISILER");
+
+//--> 3
+
+// db;
+
+//--> 4
+
+// db.dropDatabase();
+
+//--> 5
+
+// db.createCollection("ogrenciler");
+
+//--> 6
+
+// db.ogrenciler.insertOne({ad:"Murat", lakap : "Cakir", maas : 4000});
+
+//-->7
+use("KISILER");
+ db.ogrenciler.find();
+
+//-->8
+
+// db.ogrenciler.drop();
+
+//--> 9
+
+// db.ogrenciler.insertMany([{ad:"Murat", lakap : "Cakir", maas : 4000},
+//                           {ad:"Turan", lakap : "Bakir", maas : 5000},
+//                           {ad:"Hakan", lakap : "Tekir", maas : 2000}]);
+
+//--> 10
+
+use("KISILER");
+db.ogrenciler.insertOne({"suanki_tarih ":new Date()});
+
+//--> 11
+
+use("KISILER");
+db.ogrenciler.insertOne({ad:"Ali", soyad : "Tan", tarih : new ISODate()});
+
+//ayları index sırasına göre numaralandırıyor.
+
+
