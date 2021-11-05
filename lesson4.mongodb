@@ -159,3 +159,46 @@ pipeline=[
 
 use("MEDYA")
 db.hesaplar.aggregate(pipeline)
+
+//14) hesaplar collection ının muhasebe adında bi klonunu oluştur
+
+
+use("MEDYA");
+db.muhasebe.find()
+db.hesaplar.aggregate({$project:{_id:0}},{$merge:{into:"muhasebe"}})
+
+////==================================================================================
+////                                  BULKWRITE (toplu yazmak)
+////  Birden fazla islemi ayni komutla gerceklestirmek icin BulkWrite kullanilabilir.
+// https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/
+// db.collections.bulkWrite([
+//       {insertOne:{"document": {yazar: "........", fiyat:....., yayinYili : ...... }}},
+//   {updateOne:{"filter":{yazar: "......"}, "update": {$set: {fiyat:.......}}}},
+//   {replaceOne:{"filter":{yazar:"......."}, "replacement": {yazar: "......", fiyat:.....}}},
+//   {deleteOne:{"filter" : {yazar: "........."}}}
+//    ]);
+//==================================================================================
+
+
+use("MEDYA");
+db.hikayeler.insertMany(
+[{"yazar" : "Mehmet Bak", "fiyat" : 60, "yayinYili" : 1998 },
+{"yazar" : "Ali Gel", "fiyat" : 75, "yayinYili" : 2000 },
+{"yazar" : "Su Ak", "fiyat" : 90, "yayinYili" : 2005 },
+{"yazar" : "İsmet Kaç", "fiyat" : 35, "yayinYili" : 2010 },
+{"yazar" : "Pelin Su", "fiyat" : 80, "yayinYili" : 2020 },
+{"yazar" : "Suat Ok", "fiyat" : 54, "yayinYili" : 2001}]);
+​
+
+
+use("MEDYA")
+db.hikayeler.bulkWrite([
+{insertOne:{"document": {yazar: "Bahar Koc", fiyat:80, yayinYili :2021 }}},
+{updateOne:{"filter":{yazar: "Ali Gel"}, "update": {$set: {fiyat:99}}}},
+{replaceOne:{"filter":{yazar:"Pelin Su"}, "replacement": {yazar: "Erdem Göcen", fiyat:100}}},
+{deleteOne:{"filter" : {yazar: "Mehmet Bak"}}}
+])
+
+
+
+//15)
